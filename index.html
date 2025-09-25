@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rasal Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Reset & Base */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; line-height: 1.6; color: #333; background: #f5f5f5; }
+    a { text-decoration: none; color: inherit; }
+
+    /* Navbar */
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+    nav .logo { font-weight: 700; font-size: 1.5rem; color: #007bff; }
+    nav ul { display: flex; gap: 1.5rem; }
+    nav ul li { list-style: none; cursor: pointer; transition: 0.3s; }
+    nav ul li:hover { color: #007bff; }
+
+    /* Hero Section */
+    header { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 100vh; background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); color: #fff; }
+    header h1 { font-size: 3rem; margin-bottom: 1rem; }
+    header p { font-size: 1.2rem; max-width: 600px; margin-bottom: 2rem; }
+    .btn { padding: 0.8rem 2rem; background: #fff; color: #007bff; font-weight: 600; border-radius: 50px; transition: 0.3s; cursor: pointer; }
+    .btn:hover { background: #007bff; color: #fff; }
+
+    /* Sections */
+    section { padding: 6rem 2rem; max-width: 1000px; margin: auto; }
+    section h2 { font-size: 2rem; margin-bottom: 2rem; text-align: center; color: #007bff; }
+
+    /* About */
+    #about p { text-align: center; max-width: 700px; margin: auto; }
+
+    /* Projects */
+    #projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .project-card { background: #fff; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s; cursor: pointer; }
+    .project-card:hover { transform: translateY(-10px); }
+    .project-card h3 { margin-bottom: 1rem; color: #007bff; }
+    .project-card p { font-size: 1rem; }
+
+    /* Contact */
+    #contact form { display: flex; flex-direction: column; gap: 1rem; max-width: 500px; margin: auto; }
+    #contact input, #contact textarea { padding: 0.8rem; border-radius: 5px; border: 1px solid #ccc; font-size: 1rem; width: 100%; }
+    #contact button { padding: 0.8rem; border-radius: 50px; border: none; background: #007bff; color: #fff; font-weight: 600; cursor: pointer; transition: 0.3s; }
+    #contact button:hover { background: #0056b3; }
+
+    /* Footer */
+    footer { text-align: center; padding: 2rem; background: #fff; margin-top: 4rem; }
+
+    /* Animations */
+    .fade-in { opacity: 0; transform: translateY(20px); transition: 0.6s ease-out; }
+    .fade-in.show { opacity: 1; transform: translateY(0); }
+    /* Tech Slider */
+    .tech-slider {
+      overflow: hidden;
+      margin-top: 2rem;
+      position: relative;
+    }
+    .tech-track {
+      display: flex;
+      gap: 2rem;
+      animation: scroll-left 10s linear infinite;
+    }
+
+    .tech-card {
+      background: #fff;
+      padding: 1rem;
+      min-width: 150px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+    .tech-card:hover {
+      transform: scale(1.1);
+    }
+    .tech-card img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      margin-bottom: 0.5rem;
+    }
+    .tech-card p {
+      font-weight: 600;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    #services { padding: 6rem 2rem; background: #f5f5f5; max-width: 1200px; margin: auto; }
+    .services-container { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; }
+    .service-card { background: #fff; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); flex: 1 1 300px; max-width: 350px; transition: transform 0.3s; text-align: center; }
+    .service-card:hover { transform: translateY(-10px); }
+    .service-card h3 { color: #007bff; margin-bottom: 1rem; }
+    .service-card .price { font-size: 2rem; font-weight: 700; color: #333; margin-bottom: 1rem; }
+    .service-card ul { text-align: left; list-style: none; padding: 0; margin-bottom: 1.5rem; }
+    .service-card ul li { margin-bottom: 0.5rem; padding-left: 1.2rem; position: relative; }
+    .service-card ul li::before { content: '✔'; position: absolute; left: 0; color: #007bff; }
+    .service-card .btn { padding: 0.8rem 2rem; border-radius: 50px; border: none; background: #007bff; color: #fff; font-weight: 600; cursor: pointer; transition: 0.3s; }
+    .service-card .btn:hover { background: #0056b3; }
+    .featured { border: 2px solid #007bff; transform: scale(1.05); }
+
+        /* Scroll animation */
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-120%); } /* adjust depending on number of cards */
+    }
+    .projects-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        justify-content: center;
+        }
+
+        .project-card {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+        max-width: 300px;
+        flex: 1 1 300px;
+        transition: transform 0.3s;
+        text-align: center;
+        }
+
+        .project-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        }
+
+        .project-card h3 {
+        margin: 1rem 0 0.5rem;
+        color: #007bff;
+        }
+
+        .project-card p {
+        font-size: 0.9rem;
+        padding: 0 1rem 1rem;
+        color: #333;
+        }
+
+        .project-card:hover {
+        transform: translateY(-10px);
+        }
+        header {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: #fff;
+        overflow: hidden;
+        }
+
+        /* Buttons */
+        header .btn {
+        padding: 0.8rem 2rem;
+        background: #fff;
+        color: #007bff;
+        font-weight: 600;
+        border-radius: 50px;
+        transition: 0.3s;
+        cursor: pointer;
+        margin-top: 1rem;
+        }
+        header .btn:hover {
+        background: #007bff;
+        color: #fff;
+        }
+
+        /* Hero logos container */
+        .hero-logos {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none; /* logos don't block clicks */
+        }
+
+        /* Individual logos */
+        .hero-logos .logo {
+        position: absolute;
+        width: 50px;
+        opacity: 0.6; /* subtle transparency */
+        transition: transform 0.3s;
+        }
+
+        /* Position logos around content */
+        .logo-js { top: 10%; left: 15%; }
+        .logo-react { top: 25%; right: 10%; }
+        .logo-mongo { bottom: 20%; left: 15%; }
+        .logo-laptop { top: 10%; left: 50%; transform: translate(-50%, -50%); }
+        .logo-tablet { bottom: 25%; right: 15%; }
+        .logo-mobile { bottom: 10%; left: 50%; transform: translateX(-50%); }
+
+        /* Optional hover scale effect */
+        .hero-logos .logo:hover {
+        transform: scale(1.2);
+        opacity: 0.3;
+        }
+        @media (max-width: 768px) {
+            .hero-logos .logo {
+                width: 30px;
+            }
+            header h1 {
+                font-size: 2.5rem;
+            }
+            header p {
+                font-size: 1rem;
+                padding: 0 1rem;
+                max-width: 90%;
+                
+
+            }
+            .project-card {
+                max-width: 100%;
+            }
+            .service-card {
+                max-width: 100%;
+            }
+            nav ul {
+                gap: 0.5rem;
+            }
+            nav > ul >li{
+                font-size: 0.9rem;
+            }
+            #sitename{
+                font-size: 1.2rem;
+            }
+        }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo" id="sitename">RasalsWorkshop</div>
+    <ul>
+      <li onclick="scrollToSection('home')">Home</li>
+      <li onclick="scrollToSection('about')">About</li>
+      <li onclick="scrollToSection('projects')">Projects</li>
+      <li onclick="scrollToSection('services')">Services</li>
+      <li onclick="scrollToSection('contact')">Contact</li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <header id="home">
+    <h1>Hi, I'm Rasal</h1>
+    <p>A passionate web developer creating interactive and modern web experiences.</p>
+    <button class="btn" onclick="scrollToSection('projects')">View Projects</button>
+
+    <!-- Tech & Device Logos (Background decoration) -->
+    <div class="hero-logos">
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="JS" class="logo logo-js">
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" alt="React" class="logo logo-react">
+        <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg" alt="MongoDB" class="logo logo-mongo">
+        <img src="https://img.icons8.com/ios-filled/50/000000/laptop.png" alt="Laptop" class="logo logo-laptop">
+        <img src="https://img.icons8.com/ios-filled/50/000000/ipad.png" alt="Tablet" class="logo logo-tablet">
+        <img src="https://img.icons8.com/ios-filled/50/000000/smartphone.png" alt="Mobile" class="logo logo-mobile">
+    </div>
+  </header>
+
+  <!-- About Section -->
+    <section id="about" class="fade-in">
+        <h2>About Me</h2>
+        <p>I'm a web developer specializing in frontend and backend technologies. Here are some of the tools and frameworks I work with:</p>
+
+        <div class="tech-slider">
+            <div class="tech-track">
+                <!-- Repeat these cards for continuous scroll -->
+                <div class="tech-card">
+                    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="JavaScript">
+                    <p>JavaScript</p>
+                </div>
+                <div class="tech-card">
+                    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" alt="React">
+                    <p>React</p>
+                </div>
+                <div class="tech-card">
+                    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg" alt="Node.js">
+                    <p>Node.js</p>
+                </div>
+                <div class="tech-card">
+                    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/express/express-original.svg" alt="Express">
+                    <p>Express</p>
+                </div>
+                <div class="tech-card">
+                    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg" alt="MongoDB">
+                    <p>MongoDB</p>
+                </div>
+                <div class="tech-card">
+                    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg" alt="HTML5">
+                    <p>HTML5</p>
+                </div>
+                <div class="tech-card">
+                    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg" alt="CSS3">
+                    <p>CSS3</p>
+                </div>
+                <div class="tech-card">
+                    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/tailwindcss/tailwindcss-plain.svg" alt="Tailwind">
+                    <p>Tailwind</p>
+                </div>
+                <div class="tech-card">
+                    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain.svg" alt="Bootstrap">
+                    <p>Bootstrap</p>
+                </div>
+                <div class="tech-card">
+                    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/jquery/jquery-original.svg" alt="jQuery">
+                    <p>jQuery</p>
+                </div>
+                <div class="tech-card">
+                    <img src="https://www.vectorlogo.zone/logos/firebase/firebase-icon.svg" alt="Firebase">
+                    <p>Firebase</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <!-- Projects Section -->
+    <div>
+        <h1 style="text-align:center;color:#007bff;margin-bottom:2rem; padding: 0; margin: 0;">Projects</h1>
+    </div>
+    <section id="projects" class="fade-in">
+        <div class="projects-container">
+            <!-- Project Card 1 -->
+            <div class="project-card">
+                <img src="" alt="Portfolio Website">            <h3>Portfolio Website</h3>
+                <p>A personal portfolio website to showcase projects and skills with modern UI and responsive design.</p>
+            </div>
+
+            <!-- Project Card 2 -->
+            <div class="project-card">
+                <img src="" alt="E-commerce Website">         
+                <h3>Small E-commerce Website</h3>
+                <p>Dynamic web app with product listing, shopping cart, and payment integration demo.</p>
+            </div>
+
+            <!-- Project Card 3 -->
+            <div class="project-card">
+                <img src="" alt="Blog Platform">
+                <h3>Blog Platform</h3>
+                <p>Interactive blog site with CMS and responsive design to manage posts and categories.</p>
+            </div>
+        </div>
+    </section>
+
+  <!-- Services / Pricing Section -->
+    <section id="services">
+    <h2 style="text-align:center;color:#007bff;margin-bottom:2rem;">Services & Pricing</h2>
+    <div class="services-container">
+        <!-- Card 1: Portfolio Website -->
+        <div class="service-card">
+        <h3>Portfolio Website</h3>
+        <p class="price">₹5,000 <span style="font-size:0.8rem;">/year</span></p>
+        <ul>
+            <li>1-year free domain (.xyz/.tech)</li>
+            <li>Free Firebase hosting</li>
+            <li>1/day Newsletter setup</li>
+            <li>5 Pages max</li>
+            <li>Small database storage</li>
+            <li>Payment gateway integration</li>
+        </ul>
+        <button class="btn" onclick="hireWhatsApp('Portfolio Website')">Hire Me</button>
+        </div>
+
+        <!-- Card 2: Small E-commerce Website -->
+        <div class="service-card featured">
+        <h3>Small E-commerce Website</h3>
+        <p class="price">₹15,000 <span style="font-size:0.8rem;">/year</span></p>
+        <ul>
+            <li>1-year free domain</li>
+            <li>AWS hosting</li>
+            <li>10 Pages max</li>
+            <li>Product catalog & shopping cart</li>
+            <li>Basic payment gateway integration</li>
+            <li>Newsletter & subscription setup</li>
+            <li>Database storage for products</li>
+        </ul>
+        <button class="btn" onclick="hireWhatsApp('E-Commerce Website')">Hire Me</button>
+        </div>
+
+        <!-- Card 3: Custom Website -->
+        <div class="service-card">
+        <h3>Custom Website</h3>
+        <p class="price">₹25,000 <span style="font-size:0.8rem;">/year</span></p>
+        <ul>
+            <li>1-year free domain</li>
+            <li>AWS/OceanOs Hosting</li>
+            <li>Up to 15 pages</li>
+            <li>Full database support</li>
+            <li>Newsletter & CMS integration</li>
+            <li>Advanced payment gateway setup</li>
+            <li>Custom features as requested</li>
+        </ul>
+        <button class="btn" onclick="hireWhatsApp('Custom Website')">Hire Me</button>
+        </div>
+    </div>
+    </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="fade-in">
+    <h2>Contact Me</h2>
+    <form id="contact-form"> 
+        <input type="text" id="name"  name="name"  placeholder="Your Name" required>
+        <input type="email" id="email" name="email" placeholder="Your Email" required>
+        <textarea id="message" id="message" name="message" placeholder="Your Message" required></textarea>
+        <button type="submit">Send via WhatsApp</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Rasal. All Rights Reserved.
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";
+
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyC4yEdQIP7ev_2eYy_NUE4Ypk8FQMcGAYI",
+      authDomain: "rasalsworkshop-fd917.firebaseapp.com",
+      databaseURL: "https://rasalsworkshop-fd917-default-rtdb.firebaseio.com",
+      projectId: "rasalsworkshop-fd917",
+      storageBucket: "rasalsworkshop-fd917.firebasestorage.app",
+      messagingSenderId: "441082969915",
+      appId: "1:441082969915:web:ec84ded4bea09195dec11e"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const form = document.getElementById("contact-form");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const message = document.getElementById("message").value;
+
+      try {
+        // Push to Firebase
+        await push(ref(db, 'formSubmissions'), {
+          name,
+          email,
+          message,
+          timestamp: new Date().toISOString()
+        });
+
+        // Open WhatsApp
+        const phone = "918547909364";
+        const text = `Hi Rasal, I am ${name} (${email}). Message: ${message}`;
+        const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+        window.open(url, "_blank");
+
+        form.reset();
+        alert("Message sent successfully!");
+
+      } catch (err) {
+        console.error("Error submitting form:", err);
+        alert("Error sending message. Check console.");
+      }
+    });
+
+    // Smooth scroll function
+    function scrollToSection(id){
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Fade-in animation
+    const faders = document.querySelectorAll('.fade-in');
+    const handleFade = () => {
+      faders.forEach(fader => {
+        const rect = fader.getBoundingClientRect();
+        if(rect.top < window.innerHeight - 100){
+          fader.classList.add('show');
+        }
+      });
+    };
+    window.addEventListener('scroll', handleFade);
+    window.addEventListener('load', handleFade);
+
+    // Duplicate tech-track for infinite scroll
+    const track = document.querySelector('.tech-track');
+    track.innerHTML += track.innerHTML;
+
+    // Hire button WhatsApp function
+    window.hireWhatsApp = (serviceName) => {
+      const phone = "918547909364";
+      const message = `Hi Rasal, I am interested in your ${serviceName} service.`;
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+      window.open(url, "_blank");
+    };
+</script>
+
+</body>
+</html>
