@@ -473,10 +473,10 @@
     });
 
     // Smooth scroll function
-    function scrollToSection(id){
+    window.scrollToSection = (id) => {
       document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-    }
-
+    };
+  
     // Fade-in animation
     const faders = document.querySelectorAll('.fade-in');
     const handleFade = () => {
